@@ -1,0 +1,12 @@
+ext{
+    springBootVersion='2.6.0'
+}
+dependencies {
+    api(project(':ip2region-lib'))
+    api(project(':ip2region-data'))
+
+    optionalImplementation("org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}")
+    annotationProcessor("org.springframework.boot:spring-boot-autoconfigure-processor:${springBootVersion}")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+}

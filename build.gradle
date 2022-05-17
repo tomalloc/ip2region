@@ -1,0 +1,58 @@
+subprojects {
+    apply plugin: 'java-library'
+
+    repositories {
+        mavenLocal()
+        maven {
+            url = 'https://maven.aliyun.com/repository/public'
+        }
+    }
+
+
+    compileJava.options.encoding = 'UTF-8'
+    tasks.withType(JavaCompile) {
+        options.warnings = true
+        options.encoding = 'UTF-8'
+        options.compilerArgs += ['-parameters', '-Xdoclint:none', '-Xlint:none', '-nowarn']
+    }
+
+    group = 'com.github.tomalloc'
+    configurations{
+        implementation.canBeResolved = true
+        api.canBeResolved = true
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    compileJava.dependsOn(processResources)
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+
+        registerFeature('optional') {
+            usingSourceSet(sourceSets.main)
+        }
+    }
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+    }
+
+
+    test {
+        useJUnitPlatform{
+            includeEngines 'junit-jupiter'
+        }
+
+        minHeapSize = "128m"
+        maxHeapSize = "512m"
+
+        failFast = true
+
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+    }
+}
